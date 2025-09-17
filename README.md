@@ -22,7 +22,7 @@ This is a Vendure e-commerce backend with multivendor marketplace functionality,
 
 ### 🚀 One-Command Setup (Recommended)
 
-For a completely fresh setup, run this single command:
+For a completely fresh setup, run this single command. Make sure you have docker up and running:
 
 ```bash
 npm run setup
