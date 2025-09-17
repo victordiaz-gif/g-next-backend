@@ -1,0 +1,47 @@
+{
+  "name": "vendure-backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:server": "ts-node ./src/index.ts",
+    "dev:worker": "ts-node ./src/index-worker.ts",
+    "populate": "ts-node ./src/populate-test-data.ts",
+    "dev": "concurrently npm:dev:*",
+    "build": "tsc",
+    "start:server": "node ./dist/src/index.js",
+    "start:worker": "node ./dist/src/index-worker.js",
+    "start": "concurrently npm:start:*",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "init-db": "node scripts/init-database.js",
+    "setup": "npm run init-db"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^9.1.1",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/graphql": "^13.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "@vendure/admin-ui-plugin": "3.4.0",
+    "@vendure/asset-server-plugin": "3.4.0",
+    "@vendure/common": "3.4.0",
+    "@vendure/core": "3.4.0",
+    "@vendure/elasticsearch-plugin": "^3.4.0",
+    "@vendure/email-plugin": "3.4.0",
+    "@vendure/graphiql-plugin": "3.4.0",
+    "@vendure/payments-plugin": "^3.4.0",
+    "dotenv": "17.2.1",
+    "graphql-tag": "^2.12.6",
+    "pg": "8.16.3",
+    "stripe": "^13.11.0",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "5.0.7",
+    "@graphql-codegen/typescript": "4.1.6",
+    "@vendure/cli": "3.4.0",
+    "@vendure/create": "^3.4.2",
+    "concurrently": "9.2.0",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
+}
