@@ -125,7 +125,7 @@ export const config: VendureConfig = {
             adminUiConfig: {
                 apiPort: process.env.APP_ENV === 'dev' ? 443 : serverPort,
                 apiHost: process.env.ADMIN_UI_API_HOST || (process.env.APP_ENV === 'dev' ? 'https://vendure-backend-393513168568.us-central1.run.app' : undefined),
-                brand: 'Glass Next this is a test',
+                brand: 'Glass Next',
                 hideVendureBranding: true,
                 hideVersion: false,
                 loginImageUrl: "https://gcommerce.glass/design/backend/media/images/addons/glass_vendors/admin-login-background.jpg?1747208220",
