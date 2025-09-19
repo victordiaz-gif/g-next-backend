@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "glass-next",
+  "private_key_id": "23acee7f52593604bdde335e91e76272d0992bc7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQClm4fyq3GeZvbT\nHGP0SAuoU+oNjx5WA3xatyEkEZApDa6O0JIAecZxzZ1o9micGSaW4rAACDlBhaU2\narM2xwD0vIZ61ZU5dmPAbplvXATDpHy/OxsJYJ6Bq/zVEuKbR51X5I/R+t+xq6Yj\nGGYlcCPgvQ7Y5Zzesz98b2JTRt7yDFmlXv9TwRtdETV81h9pnvle3c6JXDy8BrGJ\nrVRMUeWGiAZjq5shcB/morQchRevUSqfKm+g7qnBJY2+Pm4CAqLQ94oibrJ7OICS\nM3JJRvmEtKIf1lEqMqqjkgkED/POGB2XW9K6Wb/1ygg1IAJXqgr1LdqV+5nkg6y9\nYU9SP6SNAgMBAAECggEABtqGcQVrdHdZlWUmnl+XSV7y8XBv/F7Xvd+33J/0LWsh\n8e03WIeaXIbjNNwm11UlIWCg7k06R49nIwKGntFRGaziaMooUQyF1mau0ETc8/nP\nBpFcIn4USfegxSzZ3Gr/uNw+QpIsqg4wuwR0htaSBNDG6akfXf5snoF/kXMsoPFx\n/IbN8+6VstjbWzPAmcoaLmAb8uK3tbwgIArN6kgTmb3WQtQ7Hjp+Px8oQG/SZBLK\ntXpPUvsrWCcgejwrIWw1MwutotrFu0JrrIecbak0CpZdzsvgah1bKrdXzu0psyyW\nYAYkw2bIe1DdpJolcjtTYB+I34dqicRrAz965NmBwwKBgQDfK+pcsJ7kN/sUZvBb\npMQS84I14kZ2WKgSj6/TgCBOUhYrQmj58zm1l6/92uqSZe13gTuRNKT0UtdIhwIP\nJV8twVBcQS5Xc33CPHwVRmQ6d6M9VvrCoiRtDeCsmYH+VdMPb86sLvANiG0sH0BO\nvS5kdhMXsVktN9ge4735jcDB2wKBgQC99+YNYChw9HnbJcLyIFphrsvA8H1nPMAs\ny31a1lQJN1rutmbS1h4AVtJEewbupmh6a6IxibYvUr45EwQSlX+hSalNjWWXhEFE\n2aAw3jrDzq2SYCBDhApCICvIjNZHF3YUoYcy0KIPwiVD4D9UHcwgfzuviIyoWCVm\nIJ9PZ2aDtwKBgFO9N7hF8ajytHyoT4IjpgryYiZz3Dql85LbZX838WdR982NorQ/\nJqVT4I6haSk7o8oWrNJEbazbtLobJpOmUzto8Q1cy9W2mTab2XdmLU+e+pqWm4sS\nqhZdgbNh+lwDuiltq6ACEMMTMNvAcjHZXKIHiAx42FxWOvsEO5F7NhvHAoGAdkjw\nVu3D4KlpYro9i5P3kxFKz4UvIGQkaP//utrvkpmEJlUu6yLlpWJqJLfSFjFJpsh0\nQpIz/X1w8orTo1qxENWT9LURR+nS1jMH2sXVI20CiL0P+doypP/xIzwGhFeob6ow\nS8S61EMX/w6XgCHZo3Z1zJOiuYPBLbksWT3SCDsCgYBVJ6EgLKyXKJhvU7ZkTFUS\n3f1tzph9fPrcxNNve3e6yRCyTGg9JokxErKuxQLyVYlgzvtpdIb46awepF92cGry\n85v1BPTpXy5y8+pO5LtDMQYPTnogDboDlBDR0a0mdChLooYtENKTbd8fpd1UEHki\nyuJwH0lTeiS8FZbpvPvl/A==\n-----END PRIVATE KEY-----\n",
+  "client_email": "github-actions@glass-next.iam.gserviceaccount.com",
+  "client_id": "108165268697502605845",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/github-actions%40glass-next.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

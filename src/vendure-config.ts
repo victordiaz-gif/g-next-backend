@@ -28,7 +28,7 @@ export const config: VendureConfig = {
         port: serverPort,
         adminApiPath: 'admin-api',
         shopApiPath: 'shop-api',
-        trustProxy: IS_DEV ? false : 1,
+        trustProxy: true,
         // The following options are useful in development mode,
         // but are best turned off for production for security
         // reasons.
@@ -123,7 +123,8 @@ export const config: VendureConfig = {
             route: 'admin',
             port: serverPort,
             adminUiConfig: {
-                apiPort: serverPort,
+                apiPort: process.env.APP_ENV === 'dev' ? 443 : serverPort,
+                apiHost: process.env.ADMIN_UI_API_HOST || (process.env.APP_ENV === 'dev' ? 'https://vendure-backend-393513168568.us-central1.run.app' : undefined),
                 brand: 'Glass Next',
                 hideVendureBranding: true,
                 hideVersion: false,
@@ -157,8 +158,9 @@ export const config: VendureConfig = {
             },
         }),
         ElasticsearchPlugin.init({
-            host: process.env.ELASTICSEARCH_HOST,
-            port: +process.env.ELASTICSEARCH_PORT!,
+            host: process.env.ELASTICSEARCH_HOST || 'http://34.27.160.130',
+            port: parseInt(process.env.ELASTICSEARCH_PORT || '9200'),
+            indexPrefix: 'vendure',
         }),
         ProductSellersPlugin.init({}),
         MarketplacePaymentPlugin.init({

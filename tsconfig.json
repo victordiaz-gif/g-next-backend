@@ -20,7 +20,8 @@
     "src/plugins/**/ui/*",
     "src/plugins/**/dashboard/*",
     "admin-ui",
-    "vite.*.*ts"
+    "vite.*.*ts",
+    "codegen.ts"
   ],
   "ts-node": {
     "files": true

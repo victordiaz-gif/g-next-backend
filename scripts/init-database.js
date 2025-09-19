@@ -46,23 +46,19 @@ async function checkDatabaseEmpty() {
 async function killProcessOnPort(port) {
     try {
         console.log(`🔍 Checking for processes using port ${port}...`);
-        // Find processes using the port
-        const result = execSync(`netstat -ano | findstr :${port}`, { stdio: 'pipe', encoding: 'utf8' });
+        // Find processes using the port (macOS/Linux compatible)
+        const result = execSync(`lsof -ti :${port}`, { stdio: 'pipe', encoding: 'utf8' });
         if (result.trim()) {
             console.log(`⚠️  Port ${port} is in use, killing processes...`);
             // Extract PIDs and kill them
-            const lines = result.split('\n').filter(line => line.trim());
-            for (const line of lines) {
-                const parts = line.trim().split(/\s+/);
-                if (parts.length >= 5) {
-                    const pid = parts[4];
-                    if (pid && pid !== '0') {
-                        try {
-                            execSync(`taskkill /F /PID ${pid}`, { stdio: 'pipe' });
-                            console.log(`✅ Killed process ${pid} using port ${port}`);
-                        } catch (killError) {
-                            // Ignore if process already dead
-                        }
+            const pids = result.trim().split('\n').filter(pid => pid.trim());
+            for (const pid of pids) {
+                if (pid && pid !== '0') {
+                    try {
+                        execSync(`kill -9 ${pid}`, { stdio: 'pipe' });
+                        console.log(`✅ Killed process ${pid} using port ${port}`);
+                    } catch (killError) {
+                        // Ignore if process already dead
                     }
                 }
             }
@@ -79,10 +75,10 @@ async function ensurePortIsFree(port = 3000) {
     await killProcessOnPort(port);
     // Double-check by trying to find any remaining processes
     try {
-        const result = execSync(`netstat -ano | findstr :${port}`, { stdio: 'pipe', encoding: 'utf8' });
+        const result = execSync(`lsof -ti :${port}`, { stdio: 'pipe', encoding: 'utf8' });
         if (result.trim()) {
             console.log(`⚠️  Port ${port} still in use, force killing all Node processes...`);
-            execSync('taskkill /F /IM node.exe', { stdio: 'pipe' });
+            execSync('pkill -f node', { stdio: 'pipe' });
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
     } catch (error) {
@@ -137,9 +133,10 @@ async function main() {
             
             // Step 5: Start server briefly to create schema
             console.log('🏗️  Creating database schema...');
-            const serverProcess = spawn('cmd', ['/c', 'npm', 'run', 'dev'], {
+            const serverProcess = spawn('npm', ['run', 'dev'], {
                 stdio: 'pipe',
-                env: { ...process.env, INIT_DB: 'true', NODE_ENV: 'development' }
+                env: { ...process.env, INIT_DB: 'true', NODE_ENV: 'development' },
+                shell: true
             });
             
             // Wait for schema creation
@@ -192,7 +189,7 @@ async function main() {
         // Kill any remaining Node.js processes from populate command
         console.log('🔍 Cleaning up any remaining processes...');
         try {
-            execSync('taskkill /F /IM node.exe', { stdio: 'pipe' });
+            execSync('pkill -f node', { stdio: 'pipe' });
             console.log('✅ All processes cleaned up');
         } catch (error) {
             console.log('✅ No additional processes to clean up');
