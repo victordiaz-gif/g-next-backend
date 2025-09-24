@@ -21,7 +21,7 @@ import { MarketplacePaymentPlugin } from './plugins/marketplace-payment/marketpl
 // import { compileUiExtensions, setBranding } from '@vendure/ui-devkit/compiler';
 
 const IS_DEV = process.env.APP_ENV === 'dev';
-const serverPort = +process.env.PORT || 3000;
+const serverPort = +process.env.PORT || 3002;
 
 export const config: VendureConfig = {
     apiOptions: {
