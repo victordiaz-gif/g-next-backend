@@ -19,7 +19,7 @@ async function generateAllProducts() {
         console.log('✅ 1 million products generated successfully!');
         
         // Verify 1M file exists
-        const oneMFile = path.join(__dirname, 'static/assets/import/1-million-products.csv');
+        const oneMFile = path.join(__dirname, '../../static/assets/import/1-million-products.csv');
         if (fs.existsSync(oneMFile)) {
             const stats = fs.statSync(oneMFile);
             console.log(`📁 1M file size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
@@ -39,7 +39,7 @@ async function generateAllProducts() {
         console.log('✅ 5 million products generated successfully!');
         
         // Verify 5M file exists
-        const fiveMFile = path.join(__dirname, 'static/assets/import/5-million-products.csv');
+        const fiveMFile = path.join(__dirname, '../../static/assets/import/5-million-products.csv');
         if (fs.existsSync(fiveMFile)) {
             const stats = fs.statSync(fiveMFile);
             console.log(`📁 5M file size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
