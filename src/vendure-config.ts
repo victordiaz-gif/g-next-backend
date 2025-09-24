@@ -21,14 +21,15 @@ import { MarketplacePaymentPlugin } from './plugins/marketplace-payment/marketpl
 // import { compileUiExtensions, setBranding } from '@vendure/ui-devkit/compiler';
 
 const IS_DEV = process.env.APP_ENV === 'dev';
-const serverPort = +process.env.PORT || 3002;
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const serverPort = parseInt(process.env.PORT || '3002', 10);
 
 export const config: VendureConfig = {
     apiOptions: {
         port: serverPort,
         adminApiPath: 'admin-api',
         shopApiPath: 'shop-api',
-        trustProxy: true,
+        trustProxy: IS_PRODUCTION, // Only enable in production
         // The following options are useful in development mode,
         // but are best turned off for production for security
         // reasons.
@@ -53,7 +54,7 @@ export const config: VendureConfig = {
         // the `synchronize` and `migrations` options.
         synchronize: process.env.NODE_ENV === 'development' && process.env.INIT_DB === 'true' ? true : false,
         migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
-        logging: false,
+        logging: IS_DEV, // Enable logging in development
         database: process.env.DB_NAME,
         schema: process.env.DB_SCHEMA,
         host: process.env.DB_HOST,
