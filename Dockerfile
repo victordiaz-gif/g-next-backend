@@ -1,5 +1,6 @@
-# Use Node.js 20 LTS
-FROM node:20-alpine
+# Use Node.js 20 LTS from Google Container Registry
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+RUN apk add --no-cache nodejs npm
 
 # Set working directory
 WORKDIR /usr/src/app
