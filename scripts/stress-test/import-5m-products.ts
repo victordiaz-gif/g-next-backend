@@ -15,7 +15,6 @@ import {
 import { config } from '../../src/vendure-config';
 import * as fs from 'fs';
 import * as path from 'path';
-import { GlobalFlag } from '../../src/plugins/multivendor/gql/generated';
 
 if (require.main === module) {
     importData().then(
@@ -118,14 +117,10 @@ function parseCSVToVendureFormat(csvContent: string): ParsedProductWithVariants[
                 sku: rowData.sku,
                 price: parseFloat(rowData.price) || 0,
                 stockOnHand: parseInt(rowData.stockOnHand) || 0,
-                trackInventory: rowData.trackInventory === 'true' ? GlobalFlag.TRUE : GlobalFlag.FALSE,
-                taxCategory: rowData.taxCategory || 'standard',
-                assetPaths: rowData.variantAssets ? rowData.variantAssets.split('|').filter(Boolean) : [],
-                facets: parseFacets(rowData.variantFacets),
+                trackInventory: rowData.trackInventory === 'true',
                 translations: [{
                     languageCode: LanguageCode.en,
                     optionValues: parseOptionValues(rowData.optionValues),
-                    customFields: {},
                 }],
             });
         }
@@ -161,20 +156,12 @@ function parseCSVRow(row: string): string[] {
     return result;
 }
 
-function parseFacets(facetsStr: string): Array<{ name: string; value: string; translations: Array<{ languageCode: LanguageCode; facet: string; value: string }> }> {
+function parseFacets(facetsStr: string): Array<{ name: string; value: string }> {
     if (!facetsStr) return [];
     
     return facetsStr.split('|').map(facet => {
         const [name, value] = facet.split(':');
-        return { 
-            name: name?.trim(), 
-            value: value?.trim(),
-            translations: [{
-                languageCode: LanguageCode.en,
-                facet: name?.trim(),
-                value: value?.trim()
-            }]
-        };
+        return { name: name?.trim(), value: value?.trim() };
     }).filter(f => f.name && f.value);
 }
 
