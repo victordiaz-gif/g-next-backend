@@ -12,10 +12,10 @@ import {
     SearchService,
     ID,
 } from '@vendure/core';
-import { config } from '../src/vendure-config';
+import { config } from '../vendure-config';
 import * as fs from 'fs';
 import * as path from 'path';
-import { GlobalFlag } from '../src/plugins/multivendor/gql/generated';
+import { GlobalFlag } from '../plugins/multivendor/gql/generated';
 
 if (require.main === module) {
     importData().then(
