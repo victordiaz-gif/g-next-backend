@@ -124,8 +124,8 @@ export const config: VendureConfig = {
             route: 'admin',
             port: serverPort,
             adminUiConfig: {
-                apiPort: serverPort,
-                apiHost: process.env.ADMIN_UI_API_HOST,
+                apiPort: process.env.APP_ENV === 'dev' ? 443 : serverPort,
+                apiHost: process.env.ADMIN_UI_API_HOST || (process.env.APP_ENV === 'dev' ? 'https://vendure-backend-393513168568.us-central1.run.app' : undefined),
                 brand: 'Glass Next',
                 hideVendureBranding: true,
                 hideVersion: false,
