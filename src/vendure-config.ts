@@ -124,8 +124,8 @@ export const config: VendureConfig = {
             route: 'admin',
             port: serverPort,
             adminUiConfig: {
-                apiPort: process.env.APP_ENV === 'dev' ? 443 : serverPort,
-                apiHost: process.env.ADMIN_UI_API_HOST || (process.env.APP_ENV === 'dev' ? 'https://vendure-backend-393513168568.us-central1.run.app' : undefined),
+                apiPort: serverPort,
+                apiHost: process.env.ADMIN_UI_API_HOST,
                 brand: 'Glass Next',
                 hideVendureBranding: true,
                 hideVersion: false,
@@ -159,7 +159,7 @@ export const config: VendureConfig = {
             },
         }),
         ElasticsearchPlugin.init({
-            host: process.env.ELASTICSEARCH_HOST || 'http://34.27.160.130',
+            host: process.env.ELASTICSEARCH_HOST,
             port: parseInt(process.env.ELASTICSEARCH_PORT || '9200'),
             indexPrefix: 'vendure',
         }),
