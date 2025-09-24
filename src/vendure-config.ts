@@ -124,7 +124,7 @@ export const config: VendureConfig = {
             route: 'admin',
             port: serverPort,
             adminUiConfig: {
-                apiPort: serverPort,
+                apiPort: IS_PRODUCTION ? 443 : serverPort,
                 apiHost: process.env.ADMIN_UI_API_HOST,
                 brand: 'Glass Next',
                 hideVendureBranding: true,
