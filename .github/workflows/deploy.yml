@@ -57,7 +57,7 @@ jobs:
           --platform managed \
           --region $REGION \
           --allow-unauthenticated \
-          --port 8080 \
+          --port 443 \
           --memory 2Gi \
           --cpu 1 \
           --max-instances 10 \
