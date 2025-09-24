@@ -13,7 +13,13 @@
     "start": "concurrently --kill-others-on-fail \"npm run start:server\" \"npm run start:worker\"",
     "codegen": "graphql-codegen --config codegen.ts",
     "init-db": "node scripts/init-database.js",
-    "setup": "npm run init-db"
+    "setup": "npm run init-db",
+    "import:5m-products": "ts-node ./scripts/stress-test/import-5m-products.ts",
+    "import:chunk-1": "ts-node ./scripts/stress-test/import-chunk-1.ts",
+    "import:chunk-2": "ts-node ./scripts/stress-test/import-chunk-2.ts",
+    "import:chunk-3": "ts-node ./scripts/stress-test/import-chunk-3.ts",
+    "import:chunk-4": "ts-node ./scripts/stress-test/import-chunk-4.ts",
+    "import:chunk-5": "ts-node ./scripts/stress-test/import-chunk-5.ts"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^9.1.1",
