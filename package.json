@@ -19,6 +19,7 @@
     "generate:all-products": "node ./src/strees-test/generate-all-products.js",
         "import:1m-products": "ts-node ./src/strees-test/import-1m-products.ts",
         "import:streaming": "ts-node ./src/strees-test/import-streaming.ts",
+        "import:batched": "ts-node ./src/strees-test/import-batched.ts",
         "import:5m-products": "ts-node ./src/strees-test/import-5m-products.ts",
     "import:chunk-1": "ts-node ./src/strees-test/import-chunk-1.ts",
     "import:chunk-2": "ts-node ./src/strees-test/import-chunk-2.ts",
