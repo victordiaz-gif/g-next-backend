@@ -57,13 +57,13 @@ jobs:
           --platform managed \
           --region $REGION \
           --allow-unauthenticated \
-          --port 8080 \
+          --port 443 \
           --memory 2Gi \
           --cpu 1 \
           --max-instances 10 \
           --min-instances 0 \
           --timeout 900 \
-          --set-env-vars NODE_ENV=production,APP_ENV=production,PORT=8080,DB_TYPE=postgres,DB_HOST=34.171.38.108,DB_PORT=5432,DB_NAME=vendure,DB_USERNAME=vendure,DB_PASSWORD=YAXNqZB2DBu8NENFJTIBA,DB_SCHEMA=public,SUPERADMIN_USERNAME=superadmin,SUPERADMIN_PASSWORD=superadmin,COOKIE_SECRET=your-cookie-secret-here-change-this-in-development,INIT_DB=true,ELASTICSEARCH_HOST=http://34.27.160.130,ELASTICSEARCH_PORT=9200,REDIS_HOST=localhost,REDIS_PORT=6379,ADMIN_UI_API_HOST=https://vendure-backend-393513168568.us-central1.run.app
+          --set-env-vars NODE_ENV=production,APP_ENV=production,PORT=443,DB_TYPE=postgres,DB_HOST=34.171.38.108,DB_PORT=5432,DB_NAME=vendure,DB_USERNAME=vendure,DB_PASSWORD=YAXNqZB2DBu8NENFJTIBA,DB_SCHEMA=public,SUPERADMIN_USERNAME=superadmin,SUPERADMIN_PASSWORD=superadmin,COOKIE_SECRET=your-cookie-secret-here-change-this-in-development,INIT_DB=true,ELASTICSEARCH_HOST=http://34.27.160.130,ELASTICSEARCH_PORT=9200,REDIS_HOST=localhost,REDIS_PORT=6379,ADMIN_UI_API_HOST=https://vendure-backend-393513168568.us-central1.run.app
 
     - name: Run database migrations
       run: |
