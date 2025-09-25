@@ -1,12 +1,12 @@
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--no-cache', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:$COMMIT_SHA', '.', '-f', 'Dockerfile']
+    args: ['build', '--no-cache', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:latest', '.', '-f', 'Dockerfile']
     id: 'Build'
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:$COMMIT_SHA']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:latest']
     id: 'Push'
 
   # Deploy container image to Cloud Run
@@ -18,7 +18,7 @@ steps:
       - 'update'
       - 'vendure-backend'
       - '--platform=managed'
-      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:$COMMIT_SHA'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:latest'
       - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID'
       - '--region=us-central1'
       - '--port=443'
@@ -32,7 +32,7 @@ steps:
     id: 'Deploy'
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:$COMMIT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/g-next-backend/vendure-backend:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY
