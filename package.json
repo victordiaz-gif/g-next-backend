@@ -23,6 +23,7 @@
         "import:100k-products": "ts-node ./src/strees-test/import-100k-products.ts",
         "import:100k-streaming": "ts-node ./src/strees-test/import-100k-streaming.ts",
         "import:100k-line-by-line": "ts-node ./src/strees-test/import-100k-line-by-line.ts",
+        "import:100k-chunked": "ts-node ./src/strees-test/import-100k-chunked.ts",
         "import:1m-products": "ts-node ./src/strees-test/import-1m-products.ts",
         "import:streaming": "ts-node ./src/strees-test/import-streaming.ts",
         "import:batched": "ts-node ./src/strees-test/import-batched.ts",
