@@ -21,6 +21,7 @@
     "upload:csv": "node ./src/strees-test/upload-to-storage.js",
     "download:csv": "node ./src/strees-test/download-from-storage.js",
         "import:100k-products": "ts-node ./src/strees-test/import-100k-products.ts",
+        "import:100k-streaming": "ts-node ./src/strees-test/import-100k-streaming.ts",
         "import:1m-products": "ts-node ./src/strees-test/import-1m-products.ts",
         "import:streaming": "ts-node ./src/strees-test/import-streaming.ts",
         "import:batched": "ts-node ./src/strees-test/import-batched.ts",
