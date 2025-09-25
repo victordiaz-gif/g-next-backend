@@ -108,7 +108,7 @@ function parseCSVToVendureFormat(csvContent: string): ParsedProductWithVariants[
                 sku: rowData.sku,
                 price: parseFloat(rowData.price) || 0,
                 stockOnHand: parseInt(rowData.stockOnHand) || 0,
-                trackInventory: rowData.trackInventory === 'true',
+                trackInventory: rowData.trackInventory === 'true' ? 'TRUE' : 'FALSE',
                 taxCategory: rowData.taxCategory || 'standard',
                 assetPaths: rowData.variantAssets ? rowData.variantAssets.split('|').filter(Boolean) : [],
                 facets: parseFacets(rowData.variantFacets),
