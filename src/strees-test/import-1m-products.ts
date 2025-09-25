@@ -15,6 +15,7 @@ import {
 import { config } from '../../src/vendure-config';
 import * as fs from 'fs';
 import * as path from 'path';
+import { GlobalFlag } from '../plugins/multivendor/gql/generated';
 
 if (require.main === module) {
     importData().then(
@@ -108,7 +109,7 @@ function parseCSVToVendureFormat(csvContent: string): ParsedProductWithVariants[
                 sku: rowData.sku,
                 price: parseFloat(rowData.price) || 0,
                 stockOnHand: parseInt(rowData.stockOnHand) || 0,
-                trackInventory: rowData.trackInventory === 'true' ? 'TRUE' : 'FALSE',
+                trackInventory: rowData.trackInventory === 'true' ? GlobalFlag.TRUE : GlobalFlag.FALSE,
                 taxCategory: rowData.taxCategory || 'standard',
                 assetPaths: rowData.variantAssets ? rowData.variantAssets.split('|').filter(Boolean) : [],
                 facets: parseFacets(rowData.variantFacets),
