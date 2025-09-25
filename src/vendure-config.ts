@@ -24,6 +24,9 @@ const IS_DEV = process.env.APP_ENV === 'dev';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const serverPort = parseInt(process.env.PORT || '3002', 10);
 
+// console log all the process.env variables
+console.log(process.env);
+
 export const config: VendureConfig = {
     apiOptions: {
         port: serverPort,
