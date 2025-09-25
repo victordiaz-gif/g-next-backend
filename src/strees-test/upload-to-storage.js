@@ -43,9 +43,9 @@ async function uploadCSVToStorage() {
             console.log(`📤 Uploading ${file} (${fileSizeMB} MB)...`);
             
             const remoteFileName = `products/${file}`;
-            const fileUpload = bucket.file(remoteFileName);
             
-            await fileUpload.upload(localFilePath, {
+            await bucket.upload(localFilePath, {
+                destination: remoteFileName,
                 metadata: {
                     contentType: 'text/csv',
                     cacheControl: 'public, max-age=3600'
