@@ -165,7 +165,7 @@ async function parseCSVWithStreaming(csvPath: string): Promise<ParsedProductWith
                 }
                 
             } catch (error) {
-                console.warn(`⚠️  Error parsing line ${lineNumber}: ${error.message}`);
+                console.warn(`⚠️  Error parsing line ${lineNumber}: ${error instanceof Error ? error.message : String(error)}`);
                 // Continue processing other lines
             }
         });
