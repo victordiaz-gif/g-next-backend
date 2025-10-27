@@ -5,6 +5,7 @@ import {
     VendureConfig,
     DefaultSearchPlugin,
     LanguageCode,
+    Asset
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader,  } from '@vendure/email-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
@@ -18,6 +19,7 @@ import { ElasticsearchPlugin } from '@vendure/elasticsearch-plugin';
 import { ProductSellersPlugin } from './plugins/product-sellers/product-sellers.plugin';
 import { MarketplacePaymentPlugin } from './plugins/marketplace-payment/marketplace-payment.plugin';
 
+
 // import { compileUiExtensions, setBranding } from '@vendure/ui-devkit/compiler';
 
 const IS_DEV = process.env.APP_ENV === 'dev';
@@ -25,7 +27,16 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const serverPort = parseInt(process.env.PORT || '3002', 10);
 
 // console log all the process.env variables
-console.log(process.env);
+console.log('=== ENVIRONMENT VARIABLES ===');
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('DB_USERNAME:', process.env.DB_USERNAME);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD ? '***SET***' : 'NOT SET');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('APP_ENV:', process.env.APP_ENV);
+console.log('PORT:', process.env.PORT);
+console.log('==============================');
 
 export const config: VendureConfig = {
     apiOptions: {
@@ -40,6 +51,13 @@ export const config: VendureConfig = {
             adminApiDebug: true,
             shopApiDebug: true,
         } : {}),
+        cors: {
+            origin: IS_PRODUCTION 
+                ? process.env.FRONTEND_URL || 'https://gcommerce.glass'
+                : ['http://localhost:3000', 'http://localhost:3001'],
+            credentials: true,
+            allowedHeaders: ['Content-Type', 'Authorization', 'vendure-token'],
+        },
     },
     authOptions: {
         tokenMethod: ['bearer', 'cookie'],
@@ -48,14 +66,21 @@ export const config: VendureConfig = {
             password: process.env.SUPERADMIN_PASSWORD,
         },
         cookieOptions: {
-          secret: process.env.COOKIE_SECRET,
+            secret: process.env.COOKIE_SECRET,
+            ...(IS_PRODUCTION ? {
+                sameSite: 'none',
+                secure: true,
+            } : {
+                sameSite: 'lax',
+                secure: false,
+            }),
         },
     },
     dbConnectionOptions: {
         type: 'postgres',
         // See the README.md "Migrations" section for an explanation of
         // the `synchronize` and `migrations` options.
-        synchronize: process.env.NODE_ENV === 'development' && process.env.INIT_DB === 'true' ? true : false,
+        synchronize: true, // Temporalmente habilitado para crear las tablas en staging
         migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
         logging: IS_DEV, // Enable logging in development
         database: process.env.DB_NAME,
@@ -64,6 +89,13 @@ export const config: VendureConfig = {
         port: +process.env.DB_PORT,
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
+        // Pool de conexiones para evitar errores de conexión
+        extra: {
+            max: 10, // Máximo 10 conexiones
+            min: 2,  // Mínimo 2 conexiones
+            acquire: 30000, // Timeout de 30 segundos
+            idle: 10000,    // Cerrar conexiones inactivas después de 10 segundos
+        },
     },
     paymentOptions: {
         paymentMethodHandlers: [dummyPaymentHandler],
@@ -71,6 +103,38 @@ export const config: VendureConfig = {
     // When adding or altering custom field definitions, the database will
     // need to be updated. See the "Migrations" section in README.md.
     customFields: {
+        Seller: [
+            {
+                name: 'agencyId',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.en, value: 'Agency ID' }],
+                description: [{ languageCode: LanguageCode.en, value: 'The agency ID associated with this seller' }],
+            },
+            {
+                name: 'agencyName',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.en, value: 'Agency Name' }],
+                description: [{ languageCode: LanguageCode.en, value: 'The name of the agency' }],
+            },
+            {
+                name: 'agencyCode',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.en, value: 'Agency Code' }],
+                description: [{ languageCode: LanguageCode.en, value: 'The code of the agency' }],
+            },
+            {
+                name: 'agencyEmail',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.en, value: 'Agency Email' }],
+                description: [{ languageCode: LanguageCode.en, value: 'The email of the agency' }],
+            },
+            {
+                name: 'agencyPhone',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.en, value: 'Agency Phone' }],
+                description: [{ languageCode: LanguageCode.en, value: 'The phone of the agency' }],
+            },
+        ],
         OrderLine: [
             {
                 name: 'selectedSellerChannelId',
@@ -161,11 +225,12 @@ export const config: VendureConfig = {
                 }
             },
         }),
-        ElasticsearchPlugin.init({
+        // Solo inicializar Elasticsearch si está configurado
+        ...(process.env.ELASTICSEARCH_HOST ? [ElasticsearchPlugin.init({
             host: process.env.ELASTICSEARCH_HOST,
             port: parseInt(process.env.ELASTICSEARCH_PORT || '9200'),
             indexPrefix: 'vendure',
-        }),
+        })] : []),
         ProductSellersPlugin.init({}),
         MarketplacePaymentPlugin.init({
             platformFeePercent: 10,
@@ -173,5 +238,6 @@ export const config: VendureConfig = {
             autoPayouts: false,
             minimumPayoutAmount: 1000,
         }),
+    
     ],
 };
