@@ -19,6 +19,7 @@
     "migration.ts",
     "src/plugins/**/ui/*",
     "src/plugins/**/dashboard/*",
+    "src/strees-test",
     "admin-ui",
     "vite.*.*ts",
     "codegen.ts"

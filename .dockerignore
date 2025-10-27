@@ -23,3 +23,5 @@ DEPLOYMENT.md
 docker-compose.prod.yml
 build-and-push.sh
 docker-build.sh
+src/strees-test
+docs
