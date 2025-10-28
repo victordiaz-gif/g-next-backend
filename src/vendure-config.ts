@@ -24,6 +24,7 @@ import { MarketplacePaymentPlugin } from './plugins/marketplace-payment/marketpl
 
 const IS_DEV = process.env.APP_ENV === 'dev';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+// Cloud Run inyecta la variable PORT, usar ese valor o default 3002
 const serverPort = parseInt(process.env.PORT || '3002', 10);
 
 // console log all the process.env variables

@@ -1,6 +1,6 @@
 # Use Node.js 20 LTS from Google Container Registry
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
-RUN apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm curl
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -31,9 +31,10 @@ USER vendure
 # Expose port
 EXPOSE 8080
 
-# Health check - use admin API endpoint instead of /health
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:8080/admin-api || exit 1
+# Health check - use shop API endpoint (simpler than admin API)
+# Increased start-period for Cloud Run since it needs time to connect to DB
+HEALTHCHECK --interval=30s --timeout=30s --start-period=180s --retries=5 \
+  CMD curl -f http://localhost:8080/shop-api || exit 1
 
 # Start the application (server only for Cloud Run)
 CMD ["node", "./dist/index.js"]
