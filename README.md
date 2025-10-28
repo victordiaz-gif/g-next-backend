@@ -196,23 +196,33 @@ This project includes several custom plugins:
 - Manages payouts and refunds
 - Platform fee collection
 
-## Production Deployment
+## 📚 Deployment
 
-### Using Docker (Infrastructure Only)
+### Production Deployment (Google Cloud Run)
 
-1. Start infrastructure services:
-   ```bash
-   docker-compose up -d postgres_db redis elasticsearch
-   ```
+**Ver guía completa**: [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
 
-2. Deploy Vendure application using your preferred method (PM2, systemd, etc.)
+**Quick deploy**:
+```bash
+# 1. Configurar variables de entorno
+cp env.production.example .env.production
+# Editar .env.production con valores reales
 
-### Using Docker Compose (Full Stack)
+# 2. Deploy
+gcloud builds submit --config cloudbuild.yaml --region=us-central1
+```
 
-For a complete Docker setup, uncomment the `vendure_backend` service in `docker-compose.yml` and run:
+### Local Development
 
 ```bash
-docker-compose up -d
+# Usar Docker Compose para servicios de infraestructura
+docker-compose up -d postgres_db redis elasticsearch
+
+# Configurar .env
+cp env.development.example .env
+
+# Iniciar servidor
+npm run dev
 ```
 
 ## Troubleshooting

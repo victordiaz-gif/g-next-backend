@@ -4,5 +4,20 @@ admin-ui
 static/assets
 static/email/test-emails
 
+# Environment files (NUNCA subir con información sensible)
 .env
+.env.local
+.env.development
+.env.production
+.env.production.local
+.env.local.backup
+.github-actions-key.json
+*.env
+
+# IDE
 .vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
