@@ -29,6 +29,10 @@ const serverPort = parseInt(process.env.PORT || '3002', 10);
 
 // console log all the process.env variables
 console.log('=== ENVIRONMENT VARIABLES ===');
+console.log('PORT:', process.env.PORT);
+console.log('serverPort (computed):', serverPort);
+console.log('IS_PRODUCTION:', IS_PRODUCTION);
+console.log('IS_DEV:', IS_DEV);
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_PORT:', process.env.DB_PORT);
 console.log('DB_NAME:', process.env.DB_NAME);
@@ -36,7 +40,8 @@ console.log('DB_USERNAME:', process.env.DB_USERNAME);
 console.log('DB_PASSWORD:', process.env.DB_PASSWORD ? '***SET***' : 'NOT SET');
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('APP_ENV:', process.env.APP_ENV);
-console.log('PORT:', process.env.PORT);
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+console.log('ADMIN_UI_API_HOST:', process.env.ADMIN_UI_API_HOST);
 console.log('==============================');
 
 export const config: VendureConfig = {
