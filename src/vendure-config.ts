@@ -58,8 +58,9 @@ export const config: VendureConfig = {
             shopApiDebug: true,
         } : {}),
         cors: {
+            // Permitir orígenes en desarrollo y producción
             origin: IS_PRODUCTION 
-                ? process.env.FRONTEND_URL || 'https://gcommerce.glass'
+                ? [process.env.FRONTEND_URL || 'https://gcommerce.glass', 'http://localhost:3000', 'http://localhost:3001']
                 : ['http://localhost:3000', 'http://localhost:3001'],
             credentials: true,
             allowedHeaders: ['Content-Type', 'Authorization', 'vendure-token'],
