@@ -17,7 +17,9 @@
     "generate:all-products": "node ./src/strees-test/generate-all-products.js",
     "upload:csv": "node ./src/strees-test/upload-to-storage.js",
     "download:csv": "node ./src/strees-test/download-from-storage.js",
-    "import:products": "node --max-old-space-size=16384 --expose-gc -r ts-node/register ./src/strees-test/import-products.ts"
+    "import:products": "node --max-old-space-size=16384 --expose-gc -r ts-node/register ./src/strees-test/import-products.ts",
+    "import:products:1m": "TARGET_PRODUCTS=1000000 BATCH_SIZE=500 CONCURRENCY=5 node --max-old-space-size=16384 --expose-gc -r ts-node/register ./src/strees-test/import-products-1m.ts",
+    "import:products:optimized": "TARGET_PRODUCTS=1000000 BATCH_SIZE=1000 CONCURRENCY=8 node --max-old-space-size=16384 --expose-gc -r ts-node/register ./src/strees-test/import-products.ts"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^9.1.1",
