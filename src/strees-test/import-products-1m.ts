@@ -58,12 +58,12 @@ async function importData() {
 }
 
 async function generateAndImportProducts(importer: Importer, app: INestApplicationContext) {
-    // 🚀 OPTIMIZACIONES PARA 1 MILLÓN DE PRODUCTOS EN 1 DÍA
-    // Necesitamos ~11.5 productos/segundo = ~694 productos/minuto
+    // 🚀 OPTIMIZATIONS FOR 1 MILLION PRODUCTS IN 1 DAY
+    // We need ~11.5 products/second = ~694 products/minute
     const TARGET_PRODUCTS = parseInt(process.env.TARGET_PRODUCTS || '1000000', 10);
-    const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '500', 10); // 500 productos por batch (ajustable)
-    const CONCURRENCY = parseInt(process.env.CONCURRENCY || '5', 10); // 5 batches en paralelo (ajustable)
-    const GENERATION_CHUNK = parseInt(process.env.GENERATION_CHUNK || '5000', 10); // Generar 5k productos a la vez
+    const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '500', 10); // 500 products per batch (adjustable)
+    const CONCURRENCY = parseInt(process.env.CONCURRENCY || '5', 10); // 5 batches in parallel (adjustable)
+    const GENERATION_CHUNK = parseInt(process.env.GENERATION_CHUNK || '5000', 10); // Generate 5k products at once
     
     const categories = ['Electronics', 'Clothing', 'Home', 'Sports', 'Books', 'Automotive', 'Health', 'Beauty', 'Toys', 'Garden'];
     const brands = ['BrandA', 'BrandB', 'BrandC', 'BrandD', 'BrandE', 'BrandF', 'BrandG', 'BrandH', 'BrandI', 'BrandJ'];
@@ -79,7 +79,7 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
     // Get superadmin context once
     const ctx = await getSuperadminContext(app);
     
-    // Función para generar un batch de productos (eficiente, sin cargar todo en memoria)
+    // Function to generate a batch of products (efficient, without loading everything into memory)
     function generateBatch(startIndex: number, batchSize: number): ParsedProductWithVariants[] {
         const batch: ParsedProductWithVariants[] = [];
         for (let i = 0; i < batchSize; i++) {
@@ -138,17 +138,17 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
         return batch;
     }
     
-    // Función para importar un batch
+    // Function to import a batch
     async function importBatch(batchIndex: number, startIndex: number): Promise<{ success: number; errors: number }> {
         const batch = generateBatch(startIndex, BATCH_SIZE);
         try {
             await importer.importProducts(ctx, batch, () => {
-                // Progress callback silencioso para mejor performance
+                // Silent progress callback for better performance
             });
             return { success: batch.length, errors: 0 };
         } catch (error) {
             const errorMessage = (error as Error).message;
-            // Solo loguear errores para primeros batches o cada 100th batch
+            // Only log errors for first batches or every 100th batch
             if (batchIndex <= 3 || batchIndex % 100 === 0) {
                 console.error(`❌ Error importing batch ${batchIndex} (products ${startIndex}-${startIndex + batch.length - 1}):`, errorMessage);
             }
@@ -156,15 +156,15 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
         }
     }
     
-    // Pool de concurrencia con control de batches en vuelo
+    // Concurrency pool with in-flight batch control
     const runningBatches: Promise<{ success: number; errors: number }>[] = [];
     let currentIndex = 1;
     let batchNumber = 0;
     let lastProgressLog = 0;
     
-    // Procesar batches con concurrencia controlada
+    // Process batches with controlled concurrency
     while (currentIndex <= TARGET_PRODUCTS || runningBatches.length > 0) {
-        // Iniciar nuevos batches hasta alcanzar el límite de concurrencia
+        // Start new batches until reaching the concurrency limit
         while (runningBatches.length < CONCURRENCY && currentIndex <= TARGET_PRODUCTS) {
             const startIndex = currentIndex;
             const batchIndex = ++batchNumber;
@@ -172,7 +172,7 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
             
             const batchPromise = importBatch(batchIndex, startIndex)
                 .then(result => {
-                    // Remover del array cuando termine
+                    // Remove from array when finished
                     const index = runningBatches.indexOf(batchPromise);
                     if (index > -1) {
                         runningBatches.splice(index, 1);
@@ -183,13 +183,13 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
             runningBatches.push(batchPromise);
         }
         
-        // Esperar a que termine al menos un batch
+        // Wait for at least one batch to finish
         if (runningBatches.length > 0) {
             const result = await Promise.race(runningBatches);
             importedCount += result.success;
             errorCount += result.errors;
             
-            // Log progress cada cierto número de productos importados
+            // Log progress every certain number of imported products
             const totalProcessed = importedCount + errorCount;
             if (totalProcessed - lastProgressLog >= 10000 || batchNumber === 1) {
                 lastProgressLog = totalProcessed;
@@ -197,7 +197,7 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
                 const productsPerSecond = totalProcessed / (elapsed / 1000);
                 const productsPerMinute = productsPerSecond * 60;
                 const remainingProducts = TARGET_PRODUCTS - totalProcessed;
-                const estimatedTimeRemaining = remainingProducts / productsPerSecond / 60; // minutos
+                const estimatedTimeRemaining = remainingProducts / productsPerSecond / 60; // minutes
                 
                 console.log(`📈 Progress Report:`);
                 console.log(`   - Processed: ${totalProcessed.toLocaleString()} / ${TARGET_PRODUCTS.toLocaleString()} products`);
@@ -209,7 +209,7 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
                 console.log(`   - Batches completed: ${batchNumber}`);
                 console.log('---');
                 
-                // Garbage collection cada 50k productos
+                // Garbage collection every 50k products
                 if (totalProcessed % 50000 === 0 && global.gc) {
                     global.gc();
                     const memUsage = process.memoryUsage();
@@ -217,12 +217,12 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
                 }
             }
         } else {
-            // Pequeña pausa si no hay batches corriendo
+            // Small pause if no batches are running
             await new Promise(resolve => setTimeout(resolve, 10));
         }
     }
     
-    // Esperar a que terminen todos los batches pendientes
+    // Wait for all pending batches to finish
     if (runningBatches.length > 0) {
         const remainingResults = await Promise.all(runningBatches);
         for (const result of remainingResults) {
@@ -250,9 +250,9 @@ async function generateAndImportProducts(importer: Importer, app: INestApplicati
     console.log(`   - Configuration: BATCH_SIZE=${BATCH_SIZE}, CONCURRENCY=${CONCURRENCY}`);
     console.log(`   - Total batches: ${batchNumber}`);
     
-    // Calcular tiempo estimado para 1 millón
+    // Calculate estimated time for 1 million
     if (productsPerSecond > 0) {
-        const timeFor1M = 1000000 / productsPerSecond / 3600; // horas
+        const timeFor1M = 1000000 / productsPerSecond / 3600; // hours
         console.log(`\n⏱️  At this speed, 1M products would take: ${timeFor1M.toFixed(2)} hours`);
         if (timeFor1M <= 24) {
             console.log(`   ✅ Feasible: Can complete 1M products in ${timeFor1M.toFixed(2)} hours (< 24h)`);
